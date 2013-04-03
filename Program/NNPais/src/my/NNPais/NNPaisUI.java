@@ -501,7 +501,6 @@ public class NNPaisUI extends javax.swing.JFrame {
         jLogPanel.setText(jLogPanel.getText() + "Number of loaded negatives: "
                 + negatives.size() + "\n");
         classifier.train(positives, negatives);
-//        jLogPanel.setText(jLogPanel.getText() + classifier.train(positives, negatives));
         jLogPanel.setText(jLogPanel.getText() + "Train complited\n");
         jButton1.setEnabled(true);
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -575,6 +574,22 @@ public class NNPaisUI extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jButton1ActionPerformed
 
+//    public double testDetectAll() {
+//        String pathImageToClassify 
+//                = "C:\\Users\\Drevlen\\Desktop\\negatives\\1.jpg";
+//        IplImage imageToClassify = cvLoadImage(pathImageToClassify, 0);
+//        classifier.setImage(imageToClassify);
+//        ArrayList objects = classifier.detectAll();
+//        int All = 0;
+//        for (int y = 0; y < imageToClassify.cvSize().height() - 
+//                classifier.baseSize.height(); y+=5) {
+//                    for (int x = 0; x < imageToClassify.cvSize().width() 
+//                            - classifier.baseSize.width(); x+=5) {
+//                        All++;
+//                    }
+//        }
+//        return (double)objects.size() / All;
+//    } 
     /**
      * @param args the command line arguments
      */
