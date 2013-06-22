@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
@@ -32,6 +33,8 @@ public class NNPaisUI extends javax.swing.JFrame {
     protected String classifierName;
     protected ArrayList<IplImage>positives;
     protected ArrayList<IplImage>negatives;
+    protected ArrayList<IplImage>testPositives;
+    protected ArrayList<IplImage>testNegatives;
     protected Classifier classifier;
     
     public NNPaisUI() {
@@ -85,10 +88,11 @@ public class NNPaisUI extends javax.swing.JFrame {
         jLabel14 = new javax.swing.JLabel();
         jTextField13 = new javax.swing.JTextField();
         jTextField14 = new javax.swing.JTextField();
+        jPanel2 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jTextField1.setText("C:\\Users\\Drevlen\\Desktop\\lfw\\George_W_Bush");
+        jTextField1.setText("C:\\Users\\Drevlen\\Desktop\\cropped_faces");
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField1ActionPerformed(evt);
@@ -156,14 +160,14 @@ public class NNPaisUI extends javax.swing.JFrame {
 
         jLabel9.setText("Haar scale step:");
 
-        jTextField5.setText("100");
+        jTextField5.setText("5");
         jTextField5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField5ActionPerformed(evt);
             }
         });
 
-        jTextField6.setText("400");
+        jTextField6.setText("20");
         jTextField6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField6ActionPerformed(evt);
@@ -182,11 +186,11 @@ public class NNPaisUI extends javax.swing.JFrame {
 
         jLabel11.setText("Haar max Width:");
 
-        jTextField11.setText("200");
+        jTextField11.setText("181");
 
         jLabel12.setText("Haar max Height:");
 
-        jTextField12.setText("200");
+        jTextField12.setText("241");
 
         jLogPanel.setName("Log"); // NOI18N
         jScrollPane1.setViewportView(jLogPanel);
@@ -205,7 +209,7 @@ public class NNPaisUI extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(0, 0, 0)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel9)
@@ -251,7 +255,7 @@ public class NNPaisUI extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jTextField13, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 217, Short.MAX_VALUE)
+                .addComponent(jScrollPane1)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -290,7 +294,7 @@ public class NNPaisUI extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel9)
                             .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel14)
                             .addComponent(jTextField13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -304,38 +308,51 @@ public class NNPaisUI extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel4)
-                                    .addComponent(jLabel1))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jTextField2)
-                                    .addComponent(jTextField4, javax.swing.GroupLayout.DEFAULT_SIZE, 189, Short.MAX_VALUE)
-                                    .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField3)))
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel1))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, 71, Short.MAX_VALUE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
-                                .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, 73, Short.MAX_VALUE))
-                            .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jTextField2)
+                            .addComponent(jTextField4)
+                            .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 413, Short.MAX_VALUE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextField3))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, 143, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 97, Short.MAX_VALUE)
+                        .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, 145, Short.MAX_VALUE))
+                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -357,7 +374,9 @@ public class NNPaisUI extends javax.swing.JFrame {
                     .addComponent(jButton3)
                     .addComponent(jButton4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
@@ -365,6 +384,8 @@ public class NNPaisUI extends javax.swing.JFrame {
                     .addComponent(jButton1))
                 .addContainerGap())
         );
+
+        jPanel2.getAccessibleContext().setAccessibleName("panel");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -451,6 +472,7 @@ public class NNPaisUI extends javax.swing.JFrame {
     
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         jLogPanel.setText("Training Started\n");
+        Random rand = new Random();
         if (fieldsEmpty()) {
             return;
         }
@@ -465,9 +487,11 @@ public class NNPaisUI extends javax.swing.JFrame {
         int haarMaxH = Integer.parseInt(jTextField12.getText());
         double scaleStep = Double.parseDouble(jTextField9.getText());
         double lernKoef = Double.parseDouble(jTextField10.getText());
+        if (classifier == null) {
         classifier = new Classifier();
         classifier.init(nNeurons, nInputs, lernKoef, haarMinW, haarMinH, 
                 haarMaxW, haarMaxH, scaleStep);
+        }
         jLogPanel.setText(jLogPanel.getText() + "Reading examples\n");
         FilenameFilter filter = new FilenameFilter() {
             @Override
@@ -477,22 +501,39 @@ public class NNPaisUI extends javax.swing.JFrame {
         };
         File f1 = new File(posDir);
         positives = new ArrayList<>(f1.list().length);
+        testPositives = new ArrayList<>(f1.list().length);
         for(File a : f1.listFiles(filter)){
             IplImage origImg = cvLoadImage(a.getPath(), 0);
-            positives.add(origImg);
+            IplImage resized = cvCreateImage(cvSize(haarMaxW, haarMaxH),
+                    origImg.depth(), origImg.nChannels());
+            cvResize(origImg, resized);
+            if (Math.abs(rand.nextInt()) % 100 < 70) {
+                positives.add(resized);
+            }
+            else {
+                testPositives.add(resized);
+            }
+            
+            cvReleaseImage(origImg);
         }
         File f2 = new File(negDir);
         negatives = new ArrayList<>(f2.list().length);
+        testNegatives = new ArrayList<>(f2.list().length);
         for(File a : f2.listFiles(filter)){
             IplImage origImg = cvLoadImage(a.getPath(), 0);
             IplImage imgRoi  = cvCloneImage(origImg);
             CvRect rect = new CvRect();
-            rect.x((origImg.cvSize().width() - haarMaxW ) / 2 );
-            rect.y((origImg.cvSize().height() - haarMaxH ) / 2 );
+            rect.x(Math.abs(rand.nextInt()) % (origImg.cvSize().width() - haarMaxW));
+            rect.y(Math.abs(rand.nextInt()) % (origImg.cvSize().height() - haarMaxH ));
             rect.width(haarMaxW);
             rect.height(haarMaxH);
             cvSetImageROI(imgRoi, rect);
-            negatives.add(imgRoi);
+            if (Math.abs(rand.nextInt()) % 100 < 70) {
+                negatives.add(imgRoi);
+            }
+            else {
+                testNegatives.add(imgRoi);
+            }
             cvReleaseImage(origImg);
         }
         
@@ -500,9 +541,48 @@ public class NNPaisUI extends javax.swing.JFrame {
                 + positives.size() + "\n");
         jLogPanel.setText(jLogPanel.getText() + "Number of loaded negatives: "
                 + negatives.size() + "\n");
+        jLogPanel.setText(jLogPanel.getText() + "Number of loaded Test positives: "
+                + testPositives.size() + "\n");
+        jLogPanel.setText(jLogPanel.getText() + "Number of loaded Test negatives: "
+                + testNegatives.size() + "\n");
+               
         classifier.train(positives, negatives);
         jLogPanel.setText(jLogPanel.getText() + "Train complited\n");
+        double sensitivity, specificity;
+        int TP = 0, TN = 0, FP = 0, FN = 0;
+        for (int i = 0; i < testPositives.size(); i++) {
+            if (classifier.classify(testPositives.get(i))) {
+                TP++;
+            }
+            else {
+                FN++;
+            }
+        }
+                for (int i = 0; i < testNegatives.size(); i++) {
+            if (!classifier.classify(testNegatives.get(i))) {
+                TN++;
+            }
+            else {
+                FP++;
+            }
+        }
+        sensitivity = (double)TP / testPositives.size();
+        specificity = (double)TN / testNegatives.size();
+                System.out.println(TP);
+                System.out.println(TN);
+                System.out.println(FP);
+                System.out.println(FN);
+        jLogPanel.setText(jLogPanel.getText() + "Corectly classified " + (TN + TP) + "\n");
+        jLogPanel.setText(jLogPanel.getText() + "Incoretly classified " + (FN + FP) + "\n");
+        jLogPanel.setText(jLogPanel.getText() + "Sensitivity " + sensitivity + "\n");
+        jLogPanel.setText(jLogPanel.getText() + "Specificity " + specificity + "\n");
+        
         jButton1.setEnabled(true);
+        positives.clear();
+        negatives.clear();
+        testPositives.clear();
+        testNegatives.clear();
+                
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -548,6 +628,7 @@ public class NNPaisUI extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         if (classifier == null) {
             jLogPanel.setText(jLogPanel.getText() + "Classifier empty\n");
+            return;
         }
         if(jTextField3.getText().equalsIgnoreCase("")) {
             jLogPanel.setText(jLogPanel.getText() + "Image path empty\n");
@@ -645,6 +726,7 @@ public class NNPaisUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JTextPane jLogPanel;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField10;

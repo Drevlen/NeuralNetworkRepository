@@ -50,8 +50,7 @@ public class Neuron  implements Serializable {
         updated = true;
         for (Neuron nerv : input) {
             if (nerv.updated) {
-                value = (int) Math.max(value, 
-                        (int)nerv.value * weight.get(input.indexOf(nerv)));
+                value += (int)nerv.value * weight.get(input.indexOf(nerv));
             } else {
                 updated = false;
                 break;
@@ -70,7 +69,21 @@ public class Neuron  implements Serializable {
         int num = 0;
         for(Neuron n : input) {
                     if (n.id == conection.id) {
-                        weight.set(num, weight.get(num) * value);
+                        double newWeight = weight.get(num);
+                        if (weight.get(num) >= 0) {
+                            newWeight += value;
+                        }
+                        else {
+                            newWeight -= value;
+                        } 
+                        if (newWeight < -1) {
+                            newWeight = -1;
+                        }
+                        else 
+                        if (newWeight > 1) {
+                            newWeight = 1;
+                        }
+                        weight.set(num, newWeight);
                         break;
                     }
                     num++;
@@ -85,21 +98,23 @@ public class Neuron  implements Serializable {
      */
     public void updateWeight(int index, double value) {
         if (index < weight.size()) {
-            weight.set(index, weight.get(index) * value);
+            double newWeight = weight.get(index) * value;
+            if (newWeight < -1) {
+                newWeight = -1;
+            }
+            else 
+            if (newWeight > 1) {
+                newWeight = 1;
+            }
+            weight.set(index, newWeight);
         }
     }
     /**
      * gives information about neurons weighted input
      * @return returns weighted input values
      */
-    public ArrayList<Double> getInputValues(){
-        ArrayList<Double> inValues = new ArrayList<>();
-        int index = 0;
-        for (Neuron nerv : input) {
-            inValues.add(nerv.value * weight.get(index));
-            index++;
-        }
-        return inValues;
+    public ArrayList<Neuron> getInputs(){
+        return input;
     }
     
 }

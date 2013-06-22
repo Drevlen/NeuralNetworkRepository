@@ -49,13 +49,16 @@ public class FeaturePool {
         
         int height = maxHeight;
         int width = maxWidth;
+        int stepX = (int)(width / scaleStep);
+        int stepY = (int)(height / scaleStep);
         features = new ArrayList<>(number);
             while(height > minHeight && width > minWidth){
-                for (int y = 0; y <= maxHeight - height; y++) {
-                    for (int x = 0; x <= maxWidth - width; x++)
+                for (int y = 0; y <= maxHeight - height; y+=stepY) {
+                    for (int x = 0; x <= maxWidth - width; x+=stepX)
                     {
-                        CvRect pos = cvRect(x, y, x + width, y + height / 2);
-                        CvRect neg = cvRect(x, y + height / 2, x + width, y + height / 2);
+                        CvRect pos = cvRect(x, y, width, height / 2);
+                        
+                        CvRect neg = cvRect(x, y + height / 2, width, height / 2);
                         features.add(new HaarFeature(pos, neg));
                         if (features.size() == number) {
                             return;
@@ -90,6 +93,7 @@ public class FeaturePool {
         for (int i = 0; i < features.size(); i++)
         {
             values.add(features.get(i).getValue(image, dx, dy));
+//            System.out.print(values.get(i) + " ");
         }
         return values;
     }

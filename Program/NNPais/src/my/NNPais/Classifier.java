@@ -40,7 +40,7 @@ public class Classifier extends Detector {
         net = new NNetwork();
         net.init(number, inSize, factor);
         pool = new FeaturePool();
-        pool.generate(number, minWidth, minHeight, maxWidth, maxHeight, 
+        pool.generate(inSize, minWidth, minHeight, maxWidth, maxHeight, 
                 scaleStep);
         baseSize = new opencv_core.CvSize(maxWidth, maxHeight);
         detectionStep = 5;
@@ -52,25 +52,13 @@ public class Classifier extends Detector {
      */
     public void train (ArrayList<opencv_core.IplImage> positives, 
             ArrayList<opencv_core.IplImage> negatives) {
-//        String log = new String();
         for (int i = 0; i < positives.size() && i < negatives.size(); i++) {
             ArrayList<Integer> inputs = pool.getValues(positives.get(i));
             net.train(inputs, true);
-//            if (net.clasify(inputs)) {
-//            log += "1 ";                
-//            } else {
-//            log += "0 ";    
-//            }
+
             inputs = pool.getValues(negatives.get(i));
-            net.train(inputs, false);
-//            if (net.clasify(inputs)) {
-//            log += "1 ";                
-//            } else {
-//            log += "0 ";    
-//            }
-            
+            net.train(inputs, false);            
         }
-//        return log;
     }
     /**
      * function of classification
